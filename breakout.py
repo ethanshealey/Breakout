@@ -13,6 +13,9 @@ def game():
                 self.b.pos = vec(-10000, -10000, 0)
                 return True
 
+        def destroyed(self):
+            return True if self.b.pos == vec(-10000, -10000, 0) else False
+
     scene = canvas(title="<b>Blockbuster!</b><br>Note: This was created in 30 minutes")
     scene.range = 5
     pad = box(pos=vector(0,-4,0),
@@ -23,7 +26,7 @@ def game():
             color=color.red,
             size=.3*vec(1,1,1))
 
-    s.v = vector(-.025,-.075,0)
+    s.v = vector(-.025,-.1,0)
 
     blocks = []
     y = 0
@@ -33,7 +36,10 @@ def game():
 
     scene.pause("Click to play!")
 
-    while True:
+    playing = True
+
+    while playing:
+
         if scene.mouse.pos.x > -7 and scene.mouse.pos.x < 7:
             pad.pos.x = scene.mouse.pos.x
         elif scene.mouse.pos.x < -7:
@@ -65,5 +71,11 @@ def game():
         for block in blocks:
             if block.collide(s) == 1:
                 s.v.y = -s.v.y
+
+        if all([block.destroyed() for block in blocks]):
+            scene.pause("You win!\nClick to play again!")
+            scene.title = ""
+            scene.delete()
+            game()
 
 game()
