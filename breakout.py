@@ -28,11 +28,7 @@ def game():
 
     s.v = vector(-.025,-.1,0)
 
-    blocks = []
-    y = 0
-    for y in range(0, 5):
-        for x in range(0, 14):
-            blocks.append(block(x, y))
+    blocks = [block(x,y) for y in range(0,5) for x in range(0, 14)]
 
     scene.pause("Click to play!")
 
